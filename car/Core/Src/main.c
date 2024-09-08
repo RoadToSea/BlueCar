@@ -18,7 +18,9 @@
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
-
+#include "tim.h"
+#include "usart.h"
+#include "gpio.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
@@ -46,7 +48,7 @@
 
 /* USER CODE BEGIN PV */
 uint8_t cmd;
-
+uint8_t flag=0;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -94,8 +96,7 @@ int main(void)
   /* USER CODE BEGIN 2 */
 	CarInit();
 	Car* car = getCarInstance();
-	printf("stm32 test");
-  /* USER CODE END 2 */
+	  /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
@@ -104,7 +105,8 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-    car->control(car->cmd);
+		if(flag==1)
+    		car->control(car->cmd);
   }
   /* USER CODE END 3 */
 }

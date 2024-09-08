@@ -395,6 +395,26 @@
           <GroupName>Application/User/Core</GroupName>
           <Files>
             <File>
+              <FileName>Car.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Core\Src\Car.c</FilePath>
+            </File>
+            <File>
+              <FileName>Car.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Core\Inc\Car.h</FilePath>
+            </File>
+            <File>
+              <FileName>Control.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Core\Src\Control.c</FilePath>
+            </File>
+            <File>
+              <FileName>Control.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Core\Inc\Control.h</FilePath>
+            </File>
+            <File>
               <FileName>main.c</FileName>
               <FileType>1</FileType>
               <FilePath>../Core/Src/main.c</FilePath>
@@ -474,26 +494,6 @@
               <FileName>stm32f1xx_hal_msp.c</FileName>
               <FileType>1</FileType>
               <FilePath>../Core/Src/stm32f1xx_hal_msp.c</FilePath>
-            </File>
-            <File>
-              <FileName>Car.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Core\Src\Car.c</FilePath>
-            </File>
-            <File>
-              <FileName>Car.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\Core\Inc\Car.h</FilePath>
-            </File>
-            <File>
-              <FileName>Control.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Core\Src\Control.c</FilePath>
-            </File>
-            <File>
-              <FileName>Control.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\Core\Inc\Control.h</FilePath>
             </File>
           </Files>
         </Group>

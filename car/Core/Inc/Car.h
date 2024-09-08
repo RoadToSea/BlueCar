@@ -2,6 +2,9 @@
 
 #include "main.h"
 
+
+#define DebugMode   1
+
 #define LeftSide 		TIM_CHANNEL_1
 #define RightSide   	TIM_CHANNEL_2
 #define timHandle       htim4
@@ -12,30 +15,34 @@
 #define IN4             GPIO_PIN_11
 
 /*以10%的速度增减*/
-#define default         speedPulse/10
+/*
+    CCR=CLK/PSC/ARR=100
+*/
+#define defaultVal         10
 
 /*  CLK = 72MHz 
-    PSC = 72-1
-    ARR = 1000-1
-    CRR = CLK/PSC/ARR = 1000
+    PSC = 720-1
+    ARR = 100-1
+    CCR = CLK/PSC/ARR = 100
     speed use % as uints ,speed = inputNumber /100*CRR = input% * CRR
  */
-#define setLeftSpeed(speed)        __HAL_TIM_SetCompare(&timHandle,LeftSide,formatSpeed(10*speed,0,1000));
-#define setRightSpeed(speed)       __HAL_TIM_SetCompare(&timHandle,RightSide,formatSpeed(10*speed,0,1000));
+#define setLeftSpeed(speed)        __HAL_TIM_SetCompare(&timHandle,LeftSide,formatSpeed(speed,0,100));
+#define setRightSpeed(speed)       __HAL_TIM_SetCompare(&timHandle,RightSide,formatSpeed(speed,0,100));
 
+/*转弯差速*/
 extern uint16_t speedDiff;
 extern uint16_t speedPulse;
 extern uint8_t Recievecmd;
 
 
 typedef enum {
-    CMD_START,
+    CMD_START='1',
     CMD_STOP,
     CMD_ADVANCE,
     CMD_RETREAT,
     CMD_TURN_LEFT,
     CMD_TURN_RIGHT,
-	CMD_CIRCLE, 
+		CMD_CIRCLE, 
     CMD_SPEEDUP,
     CMD_SPEEDCUT
 } CMD;
@@ -52,10 +59,11 @@ typedef struct carStruct{
     void (*speedcut)(uint16_t);
 }Car;
 
-
-Car* getCarInstance(void);
+/*工具函数*/
 void CarInit(void);
+Car* getCarInstance(void);
 uint16_t formatSpeed(uint16_t speed,uint16_t min,uint16_t max);
+void Debug(const char *format, ...);
 
 /* 小车控制函数*/
 void stop(void);
