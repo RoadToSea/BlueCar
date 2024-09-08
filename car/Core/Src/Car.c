@@ -5,6 +5,7 @@
 uint16_t speedDiff=0;
 uint16_t speedPulse=0;
 uint8_t Recievecmd=CMD_STOP;
+
 static Car* car;
 
 static void carFactory(void)
@@ -12,11 +13,14 @@ static void carFactory(void)
     if(car==NULL)
     { 
       car = (Car*)malloc(sizeof(Car));
+      car->cmd = CMD_STOP;
       car->advance=advance;
       car->retreat=retreat;
       car->turnLeft=turnLeft;
       car->turnRight=turnRight; 
       car->control= control;
+      car->speedup=speedup;
+      car->speedcut = speedcut;
     }
 }
 
@@ -39,6 +43,15 @@ void CarInit(void)
 	HAL_UART_Init(&huart2);
 	UART_Start_Receive_IT(&huart2,&Recievecmd,1);
   printf("car init OK");
+}
+
+uint16_t formatSpeed(uint16_t speed,uint16_t min,uint16_t max)
+{
+  if(speed>max)
+    speed=max;
+  else if(speed<min)
+    speed= min;
+  return speed;
 }
 
 void stop(void)
@@ -115,15 +128,38 @@ void control(CMD cmd)
     break;
   case CMD_ADVANCE:
     advance();
+    break;
   case CMD_RETREAT:
     retreat();
+    break;
   case CMD_TURN_LEFT:
     turnLeft();
+    break;
   case CMD_TURN_RIGHT:
     turnRight();
+    break;
 	case CMD_CIRCLE:
 		circle();
+    break;
+  case CMD_SPEEDUP:
+    speedup(default);
+    break;
+  case CMD_SPEEDCUT:
+    speedcut(default);
+    break;
   default:
     break;
   }
+}
+
+void speedup(uint16_t val)
+{
+  setLeftSpeed(speedPulse+val);
+  setRightSpeed(speedPulse+val);
+}
+
+void speedcut(uint16_t val)
+{
+  setLeftSpeed(speedPulse-val);
+  setRightSpeed(speedPulse-val);
 }

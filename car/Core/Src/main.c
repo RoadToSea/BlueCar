@@ -154,7 +154,7 @@ void SystemClock_Config(void)
 int fputc(int ch, FILE *f)
 {
 	uint8_t c = ch;
-  HAL_UART_Transmit(&huart2,&c,1,0xff);
+  HAL_UART_Transmit(&huart2,&c,1,5);
   return c;
 }
 

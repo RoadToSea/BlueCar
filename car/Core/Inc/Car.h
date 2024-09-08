@@ -11,14 +11,17 @@
 #define IN3             GPIO_PIN_10
 #define IN4             GPIO_PIN_11
 
+/*以10%的速度增减*/
+#define default         speedPulse/10
+
 /*  CLK = 72MHz 
     PSC = 72-1
     ARR = 1000-1
     CRR = CLK/PSC/ARR = 1000
     speed use % as uints ,speed = inputNumber /100*CRR = input% * CRR
  */
-#define setLeftSpeed(speed)        __HAL_TIM_SetCompare(&timHandle,LeftSide,10*speed);
-#define setRightSpeed(speed)       __HAL_TIM_SetCompare(&timHandle,RightSide,10*speed);
+#define setLeftSpeed(speed)        __HAL_TIM_SetCompare(&timHandle,LeftSide,formatSpeed(10*speed,0,1000));
+#define setRightSpeed(speed)       __HAL_TIM_SetCompare(&timHandle,RightSide,formatSpeed(10*speed,0,1000));
 
 extern uint16_t speedDiff;
 extern uint16_t speedPulse;
@@ -32,7 +35,9 @@ typedef enum {
     CMD_RETREAT,
     CMD_TURN_LEFT,
     CMD_TURN_RIGHT,
-		CMD_CIRCLE
+	CMD_CIRCLE, 
+    CMD_SPEEDUP,
+    CMD_SPEEDCUT
 } CMD;
 
 typedef struct carStruct{
@@ -42,13 +47,15 @@ typedef struct carStruct{
     void (*retreat)(void);            // 指向 retreat 函数的指针
     void (*turnLeft)(void);           // 指向 turnLeft 函数的指针
     void (*turnRight)(void);          // 指向 turnRight 函数的指针
-    void (*control)(CMD);            //只想control的指针
+    void (*control)(CMD);            // 指向control的指针
+    void (*speedup)(uint16_t);
+    void (*speedcut)(uint16_t);
 }Car;
 
 
- 
 Car* getCarInstance(void);
 void CarInit(void);
+uint16_t formatSpeed(uint16_t speed,uint16_t min,uint16_t max);
 
 /* 小车控制函数*/
 void stop(void);
@@ -57,7 +64,8 @@ void retreat(void);
 void turnLeft(void);
 void turnRight(void);
 void control(CMD cmd);
-
+void speedup(uint16_t val);
+void speedcut(uint16_t val);
 
 
 #endif

@@ -32,9 +32,9 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
         case 6:
             car->cmd = CMD_STOP;
             break;
-				case 7:
-						car->cmd = CMD_CIRCLE;
-						break;
+		case 7:
+            car->cmd = CMD_CIRCLE;
+            break;
         default:
             break;
         }
